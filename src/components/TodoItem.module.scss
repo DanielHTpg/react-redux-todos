@@ -1,0 +1,11 @@
+.todo {
+	list-style: none;
+	
+	label {
+		cursor: pointer;
+	}
+}
+
+.complete {
+	text-decoration: line-through;
+}
