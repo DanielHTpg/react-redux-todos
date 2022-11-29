@@ -1,4 +1,8 @@
 .todoList {
-	padding: 0;
-	margin: 0 0 6px;
+	padding: 4px;
+	margin: 0;
+
+	li:not(:last-child) {
+		margin-bottom: 4px;
+	}
 }

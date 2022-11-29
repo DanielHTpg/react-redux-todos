@@ -1,8 +1,14 @@
 .todo {
 	list-style: none;
+	display: flex;
+	align-items: center;
 	
 	label {
 		cursor: pointer;
+	}
+
+	button {
+		margin-right: 4px;
 	}
 }
 

@@ -16,7 +16,7 @@ export const TodoList = React.memo<ITodoListProps>(function TodoList({ items, re
 	return (
 		<ul className={styles.todoList}>
 			{items.map((todo) => (
-				<TodoItem key={todo.id} todo={todo} updateTodo={updateTodo} />
+				<TodoItem key={todo.id} todo={todo} removeTodo={removeTodo} updateTodo={updateTodo} />
 			))}
 		</ul>
 	);
