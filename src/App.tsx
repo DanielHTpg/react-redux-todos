@@ -1,45 +1,35 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 import { AddTodoForm } from './components/AddTodoForm';
 import { TodoList } from './components/TodoList';
+import { useAppDispatch, useAppSelector } from './hooks';
 import { ITodoItem } from './interfaces';
 import { TodosService } from './services';
+
+import * as fromActions from './store/actions';
+import * as fromSelectors from './store/selectors/TodoSelectors';
 
 const service = new TodosService();
 
 export const App = React.memo(function App() {
-	const [items, setItems] = useState<ITodoItem[]>([]);
-	const [loaded, setLoaded] = useState(false);
-	const [newTodoText, setNewTodoText] = useState('');
+	const dispatch = useAppDispatch();
+
+	const items = useAppSelector(fromSelectors.selectItems);
+	const loaded = useAppSelector(fromSelectors.selectLoaded);
+	const newTodoText = useAppSelector(fromSelectors.selectNewTodoText);
 	const inited = useRef(false);
 
 	const onAddTodo = useCallback(
-		async (todo: ITodoItem) => {
-			const newTodo = await service.createTodo(todo);
-
-			const newItems: ITodoItem[] = [...items, newTodo];
-			setItems(newItems);
-			setNewTodoText('');
-		},
-		[items, setItems]
+		(todo: ITodoItem) => dispatch(fromActions.createTodo({ todo, fn: service.createTodo })),
+		[dispatch]
 	);
 	const onUpdateTodo = useCallback(
-		async (todo: ITodoItem) => {
-			const updatedTodo = await service.updateTodo(todo);
-
-			const newItems: ITodoItem[] = items.map((i) => (i.id === todo.id ? updatedTodo : i));
-			setItems(newItems);
-		},
-		[items, setItems]
+		(todo: ITodoItem) => dispatch(fromActions.updateTodo({ todo, fn: service.updateTodo })),
+		[dispatch]
 	);
 	const onRemoveTodo = useCallback(
-		async (todo: ITodoItem) => {
-			await service.deleteTodo(todo);
-
-			const newItems: ITodoItem[] = items.filter((i) => i.id !== todo.id);
-			setItems(newItems);
-		},
-		[items, setItems]
+		(todo: ITodoItem) => dispatch(fromActions.deletedTodo({ todo, fn: service.deleteTodo })),
+		[dispatch]
 	);
 
 	useEffect(() => {
@@ -49,13 +39,14 @@ export const App = React.memo(function App() {
 				return;
 			}
 			inited.current = true;
-			const todos = await service.readTodos();
-			setItems(todos);
-			setLoaded(true);
+			dispatch(fromActions.readTodos({ readFn: service.readTodos }));
 		})().catch((e) => console.error(e));
-	}, [setItems]);
+	}, [dispatch]);
 
-	const onUpdateNewTodoText = useCallback((text: string) => setNewTodoText(text), [setNewTodoText]);
+	const onUpdateNewTodoText = useCallback(
+		(text: string) => dispatch(fromActions.updateNewTodoText({ newTodoText: text })),
+		[dispatch]
+	);
 
 	return (
 		<div className='app'>
