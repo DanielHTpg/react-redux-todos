@@ -53,7 +53,7 @@ export const App = React.memo(function App() {
 			{!loaded && <div>Loading...</div>}
 			{loaded && (
 				<>
-					<TodoList items={items} removeTodo={onRemoveTodo} addTodo={onAddTodo} updateTodo={onUpdateTodo} />
+					<TodoList items={items} removeTodo={onRemoveTodo} updateTodo={onUpdateTodo} />
 					<AddTodoForm
 						newTodoText={newTodoText}
 						updateNewTodoText={onUpdateNewTodoText}

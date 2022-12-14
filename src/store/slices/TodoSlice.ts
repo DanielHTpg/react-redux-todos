@@ -32,7 +32,7 @@ export const todosSlice = createSlice({
 			state.items = items;
 			state.loaded = true;
 		});
-		builder.addCase(fromThunks.createTodo.pending, (state, action) => {
+		builder.addCase(fromThunks.createTodo.pending, (state) => {
 			state.updating = true;
 		});
 		builder.addCase(fromThunks.createTodo.fulfilled, (state, action) => {
@@ -40,10 +40,10 @@ export const todosSlice = createSlice({
 			state.items.push(created);
 			state.updating = false;
 		});
-		builder.addCase(fromThunks.createTodo.rejected, (state, action) => {
+		builder.addCase(fromThunks.createTodo.rejected, (state) => {
 			state.updating = false;
 		});
-		builder.addCase(fromThunks.updateTodo.pending, (state, action) => {
+		builder.addCase(fromThunks.updateTodo.pending, (state) => {
 			state.updating = true;
 		});
 		builder.addCase(fromThunks.updateTodo.fulfilled, (state, action) => {
@@ -51,10 +51,10 @@ export const todosSlice = createSlice({
 			state.items[state.items.findIndex((i) => i.id === updated.id)] = updated;
 			state.updating = false;
 		});
-		builder.addCase(fromThunks.updateTodo.rejected, (state, action) => {
+		builder.addCase(fromThunks.updateTodo.rejected, (state) => {
 			state.updating = false;
 		});
-		builder.addCase(fromThunks.deletedTodo.pending, (state, action) => {
+		builder.addCase(fromThunks.deletedTodo.pending, (state) => {
 			state.updating = true;
 		});
 		builder.addCase(fromThunks.deletedTodo.fulfilled, (state, action) => {
@@ -62,7 +62,7 @@ export const todosSlice = createSlice({
 			state.items = state.items.filter((i) => i.id !== deleted.id);
 			state.updating = false;
 		});
-		builder.addCase(fromThunks.deletedTodo.rejected, (state, action) => {
+		builder.addCase(fromThunks.deletedTodo.rejected, (state) => {
 			state.updating = false;
 		});
 	},

@@ -8,11 +8,10 @@ import { TodoItem } from './TodoItem';
 interface ITodoListProps {
 	items: ITodoItem[];
 	removeTodo: (todo: ITodoItem) => void;
-	addTodo: (todo: ITodoItem) => void;
 	updateTodo: (todo: ITodoItem) => void;
 }
 
-export const TodoList = React.memo<ITodoListProps>(function TodoList({ items, removeTodo, addTodo, updateTodo }) {
+export const TodoList = React.memo<ITodoListProps>(function TodoList({ items, removeTodo, updateTodo }) {
 	return (
 		<ul className={styles.todoList}>
 			{items.map((todo) => (
